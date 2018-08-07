@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class MyAdapter extends BaseAdapter {
@@ -30,6 +30,7 @@ public class MyAdapter extends BaseAdapter {
     public Object getItem(int i) {
         if(_datas!=null && i<_datas.size())
             return _datas.get(i);
+
         return null;
     }
 
@@ -39,21 +40,17 @@ public class MyAdapter extends BaseAdapter {
     }
 
     public void add(Data item){
-        if(item==null)
+        if(item==null||_datas==null)
             return;
-        if(_datas==null){
-            _datas=new LinkedList<Data>();
-        }
+
         _datas.add(item);
         notifyDataSetChanged();
     }
 
     public void add(Data item,int position){
-        if(item==null)
+        if(item==null||_datas==null)
             return;
-        if(_datas==null){
-            _datas=new LinkedList<Data>();
-        }
+
         _datas.add(position,item);
         notifyDataSetChanged();
     }
@@ -65,7 +62,7 @@ public class MyAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void remove(int position) {
+    private void remove(int position) {
         if(_datas != null) {
             _datas.remove(position);
         }
@@ -79,6 +76,7 @@ public class MyAdapter extends BaseAdapter {
             holder=new ViewHolder();
             holder.img_icon=view.findViewById(R.id.img_icon);
             holder.txt_content=view.findViewById(R.id.txt_content);
+            holder.btn_remove_item=view.findViewById(R.id.btnRemoveItem);
             view.setTag(holder);
         }else{
             holder=(ViewHolder)view.getTag();
@@ -88,10 +86,19 @@ public class MyAdapter extends BaseAdapter {
             holder.img_icon.setBackgroundResource(data.getImgId());
             holder.txt_content.setText(data.getContent());
         }
+        holder.btn_remove_item.setTag(i);
+        holder.btn_remove_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index=(int)view.getTag();
+                remove(index);
+            }
+        });
         return view;
     }
-    private class ViewHolder{
+    private static class ViewHolder{
         ImageView img_icon;
         TextView txt_content;
+        Button btn_remove_item;
     }
 }

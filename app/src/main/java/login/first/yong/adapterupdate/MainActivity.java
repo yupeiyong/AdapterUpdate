@@ -3,9 +3,11 @@ package login.first.yong.adapterupdate;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        bindView();
     }
     private void bindView(){
-        List<Data>datas=new LinkedList<Data>();
+        List<Data>datas=new LinkedList<>();
+        Data data=new Data();
         final MyAdapter adapter=new MyAdapter(this,datas);
         ListView listView=findViewById(R.id.list_one);
         listView.setAdapter(adapter);
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Data data=new Data();
+                data.setImgId(R.mipmap.lime);
                 data.setContent(editTextContent.getText().toString());
                 adapter.add(data);
             }
